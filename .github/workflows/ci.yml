@@ -1,29 +1,36 @@
-name: CI Pipeline
+name: Python application
 
 on:
   push:
     branches:
-      - main
+      - main  # или ветка, в которую ты пушишь изменения
   pull_request:
     branches:
-      - main
+      - main  # или ветка, в которую ты пушишь изменения
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    # Шаг 1. Проверяем код из репозитория
+    - name: Check out repository
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+    # Шаг 2. Устанавливаем Python
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9  # или твоя версия Python
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+    # Шаг 3. Устанавливаем зависимости из requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Run tests
-        run: |
-          pytest
+    # Шаг 4. Запускаем тесты с использованием pytest
+    - name: Run tests
+      run: |
+        pytest
+
